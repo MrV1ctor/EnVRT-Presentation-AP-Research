@@ -1,5 +1,5 @@
 import {makeScene2D, Img, QuadBezier} from '@motion-canvas/2d';
-import {all, createRef, waitFor, beginSlide, arcLerp, easeInSine, easeOutSine, easeInCubic, easeOutCubic} from '@motion-canvas/core';
+import {all, createRef, beginSlide, Direction, slideTransition, fadeTransition} from '@motion-canvas/core';
 
 import forestSrc from '../../images/flashback/forest.jpg'
 import benchSrc from '../../images/flashback/bench.jpg'
@@ -122,7 +122,8 @@ export default makeScene2D(function* (view) {
     );
 
 
-
+    yield* beginSlide("flashback end");
+    // yield* fadeTransition(1.5);
 
 
 
