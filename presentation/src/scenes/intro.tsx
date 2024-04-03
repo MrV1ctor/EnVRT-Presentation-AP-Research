@@ -4,6 +4,9 @@ import {all, chain, beginSlide, createRef, DEFAULT, fadeTransition, waitFor} fro
 //using the path data from the svgs in /images/intro
 
 import hillSrc from '../../images/flashback/hill.jpg';
+import spiderPlushieSrc from '../../images/intro/spider plushie.png';
+import fakeSpiderSrc from '../../images/intro/fake spider.png';
+import spiderSrc from '../../images/intro/spider.png';
 
 
 export default makeScene2D(function* (view) {
@@ -264,7 +267,77 @@ export default makeScene2D(function* (view) {
     );
 
 
-    yield* beginSlide("vr t2herapy");
+    yield* beginSlide("exposure therapy");
+    
+    yield* all(
+        text().code.remove(text().findFirstRange('works in VR too.'), 1),
+        text().code.prepend('Exposure ', 1),
+        text().y(-1080/2+200, 1),
+        view.fill('#333', 2),
+    );
+        
+    yield* beginSlide("spider plushie");
+
+    const spiderPlushie = createRef<Img>();
+    view.add(
+        <Img
+            ref={spiderPlushie}
+            src={spiderPlushieSrc}
+            x={-1920/2-300}
+            y={0}
+            scale={0.5}
+            opacity={0}
+        />
+    );
+    yield* all(
+        spiderPlushie().x(-1080/2, 1),
+        spiderPlushie().opacity(1, 1),
+    );
+
+
+
+
+    yield* beginSlide("fake spider");
+    const fakeSpider = createRef<Img>();
+    view.add(
+        <Img
+            ref={fakeSpider}
+            src={fakeSpiderSrc}
+            x={spiderPlushie().x}
+            y={0}
+            scale={0.5}
+            opacity={0}
+        />
+    );
+    yield* all(
+        fakeSpider().x(0, 1),
+        fakeSpider().opacity(1, 1),
+    );
+    
+    
+    yield* beginSlide("real spider");
+    const spider = createRef<Img>();
+    view.add(
+        <Img
+            ref={spider}
+            src={spiderSrc}
+            x={fakeSpider().x}
+            y={0}
+            scale={0.5}
+            opacity={0}
+        />
+    );
+
+    yield* all(
+        spider().x(1080/2-50, 1),
+        spider().opacity(1, 1),
+    );
+
+
+
+    yield* beginSlide("real spide2r");
+
+
 
 
 });

@@ -42,6 +42,9 @@ export default makeScene2D(function* (view) {
             botLid().p1.y(1080/2, 3)
         );
 
+    yield* beginSlide("flashback start");
+
+
     //flashback
     const forest = createRef<Img>();
     const beach = createRef<Img>();
@@ -89,7 +92,6 @@ export default makeScene2D(function* (view) {
     bench().fill(bench().getColorAtPoint(0));
 
     yield* all(
-        beginSlide("flashback start"),
         
         forest().radius(150, 1.5),
         forest().size([300, 300], 1.5),
@@ -101,23 +103,23 @@ export default makeScene2D(function* (view) {
         bench().size([300, 300], 1.5),
     );
         
+    yield* beginSlide("forest");
     yield* all(
-        beginSlide("forest"),
         forest().alpha(1, 1.5),
         forest().size([350, 600], 1.5),
         forest().radius(20, 1.5),
     );
             
 
+    yield* beginSlide("beach");
     yield* all(
-        beginSlide("beach"),
         beach().alpha(1, 1.5),
         beach().size([350, 600], 1.5),
         beach().radius(20, 1.5),
     );
     
+    yield* beginSlide("bench");
     yield* all(
-        beginSlide("bench"),
         bench().alpha(1, 1.5),
         bench().size([350, 600], 1.5),
         bench().radius(20, 1.5),
