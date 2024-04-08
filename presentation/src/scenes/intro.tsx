@@ -1,5 +1,5 @@
 import {makeScene2D, Code, Path, Img} from '@motion-canvas/2d';
-import {all, chain, beginSlide, createRef, DEFAULT, fadeTransition, waitFor} from '@motion-canvas/core';
+import {useLogger, all, chain, beginSlide, createRef, DEFAULT, fadeTransition, waitFor} from '@motion-canvas/core';
 
 //using the path data from the svgs in /images/intro
 
@@ -10,6 +10,9 @@ import spiderSrc from '../../images/intro/spider.png';
 
 
 export default makeScene2D(function* (view) {
+    
+    const log = useLogger();
+    
     const text = createRef<Code>();
 
     view.fill('black');
@@ -285,7 +288,7 @@ export default makeScene2D(function* (view) {
             src={spiderPlushieSrc}
             x={-1920/2-300}
             y={0}
-            scale={0.5}
+            scale={0.75}
             opacity={0}
         />
     );
@@ -305,7 +308,7 @@ export default makeScene2D(function* (view) {
             src={fakeSpiderSrc}
             x={spiderPlushie().x}
             y={0}
-            scale={0.5}
+            scale={0.75}
             opacity={0}
         />
     );
@@ -335,9 +338,121 @@ export default makeScene2D(function* (view) {
 
 
 
-    yield* beginSlide("real spide2r");
+    yield* beginSlide("exposure ther. results");
+    
+    yield* all(
+        spiderPlushie().opacity(0, 1),
+        fakeSpider().opacity(0, 1),
+        spider().opacity(0, 1),
+
+        text().y(0, 1),
+        text().code.append('therapy results in:', 1),
+        note().code("", 0),
+
+        view.fill('black', 1),
+    );
+    yield* beginSlide("exposure ther. results2");
+    
+    yield* all(
+        note().code("(Mahmud et al., 2022)", .5),
+        note().opacity(1, 1),
+    );
+
+    txt = "\n\n-reduced anxiety and depression";
+    t = 1.5;
+    for (let i = 0; i < txt.length; i++) {
+        yield* text().code.append(txt[i], t/txt.length);
+    }
+    
+    yield* text().selection(text().findAllRanges(/((\banxiety\b)|(\bdepression\b))/g), 1.5);
+    
+    
+    yield* beginSlide("exposure ther. results3");
+    
+    yield* text().selection(DEFAULT, .5);
+
+    yield* note().code("(Vianez et al., 2022)", .5);
+
+    txt = "\n\n-positive impact on PTSD victims";
+    t = 1.5;
+    for (let i = 0; i < txt.length; i++) {
+        yield* text().code.append(txt[i], t/txt.length);
+    }
+    
+    yield* text().selection(text().findFirstRange('PTSD victims'), 1.5);
+    
+    
+    yield* beginSlide("VR pain manaement");
+    
+    
+    yield* all(
+        text().code("VR pain management:", 0.5),
+        text().selection(DEFAULT, 0.5),
+        note().code("(Li et al., 2011)", .5),
+    );
+
+    yield* beginSlide("VR pain management2");
 
 
+    txt = "\n\n-decrease pain and anxiety";
+    t = 1.5;
+    for (let i = 0; i < txt.length; i++) {
+        yield* text().code.append(txt[i], t/txt.length);
+    }
+    
+    
+    
+    yield* beginSlide("VR pain management3");
+    
+    yield* text().selection(DEFAULT, .5);
 
+    txt = "\n\n-burn pain, cancer pain, \n chronic pain, etc.";
+    t = 1.5;
+    for (let i = 0; i < txt.length; i++) {
+        yield* text().code.append(txt[i], t/txt.length);
+    }
+
+    yield* beginSlide("vr env. therapy");
+    
+    let removetxt = "Environmental Therapy in ";
+    let fulltxt = ":";
+
+    yield* all(
+        text().code(removetxt+" VR"+fulltxt, 0.5),
+        note().code("(Kucher et al., 2020; Wang et al., 2019)", .5),
+    );
+    
+    yield* beginSlide("vr env. therapy2");
+
+    txt = "\n\n-positive benefits including \n reduced blood pressure and\n heart rate";
+    fulltxt += txt;
+    t = 1.5;
+    for (let i = 0; i < txt.length; i++) {
+        yield* text().code.append(txt[i], t/txt.length);
+    }
+
+
+    yield* beginSlide("vr can therapy");
+    
+    
+    let newtxt = " has the capacity for therapy";
+
+    yield* all(
+        text().code.remove(text().findFirstRange(removetxt), 1),
+        text().code.replace(text().findFirstRange(fulltxt), newtxt, 1),
+        
+        note().opacity(0, 1),
+        note().code('', 1),
+    );
+    
+    yield* beginSlide("no env. therapy app");
+    
+    yield* all(
+        text().code("VR has no environmental therapy app", 0.5),
+        text().selection(DEFAULT, 0.5),
+
+    );
+
+    yield* beginSlide("Intro End");
 
 });
