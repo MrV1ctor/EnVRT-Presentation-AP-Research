@@ -223,8 +223,14 @@ export default makeScene2D(function* (view) {
     }
     
     yield* beginSlide("audio");
-    yield* text().code("", 0.5);        
-    yield* text().code("Cognitive benefits could even be had\nfrom listening to sounds found in nature", 0.5);
+    yield* all(
+        text().code("", 0.5),
+    );
+    yield* all(
+        text().code("Cognitive benefits could even be had\nfrom listening to sounds found in nature", 0.5),
+        note().code("(Van Hedger et al., 2019)", 0.5),
+
+    );
 
     
     yield* beginSlide("cog. & sound selected");
@@ -244,7 +250,7 @@ export default makeScene2D(function* (view) {
 
 
     yield* all(
-        text().selection(text().findAllRanges(/((\bCognitive benefits\b)|(\blistening to sounds\b))/g), 1.5),
+        text().selection(text().findAllRanges(/((\bCognitive benefits\b)|(\bfrom listening to sounds\b))/g), 1.5),
 
         headphones().y(1080/4, t),
         headphones().scale(0.35, t),
@@ -346,7 +352,7 @@ export default makeScene2D(function* (view) {
         spider().opacity(0, 1),
 
         text().y(0, 1),
-        text().code.append('therapy results in:', 1),
+        text().code.append('results in:', 1),
         note().code("", 0),
 
         view.fill('black', 1),
