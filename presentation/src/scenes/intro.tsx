@@ -1,4 +1,4 @@
-import {makeScene2D, Code, Path, Img} from '@motion-canvas/2d';
+import {Video, makeScene2D, Code, Path, Img} from '@motion-canvas/2d';
 import {useLogger, all, chain, beginSlide, createRef, DEFAULT, fadeTransition, waitFor} from '@motion-canvas/core';
 
 //using the path data from the svgs in /images/intro
@@ -8,6 +8,7 @@ import spiderPlushieSrc from '../../images/intro/spider plushie.png';
 import fakeSpiderSrc from '../../images/intro/fake spider.png';
 import spiderSrc from '../../images/intro/spider.png';
 
+import introVideoSrc from '../../images/intro/apresearchintro.mp4';
 
 export default makeScene2D(function* (view) {
     
@@ -54,9 +55,21 @@ export default makeScene2D(function* (view) {
     yield* beginSlide("Video of EnVRT");
 
     yield* text().code('', 0);
-    yield* waitFor(5);
-    //put a video here of me looking at title screen, going to an environment, and changing environment
-	
+    
+	//video
+    const introVideo = createRef<Video>();
+    view.add(
+        <Video
+            ref={introVideo}
+            src={introVideoSrc}
+        />
+    );
+
+    introVideo().play();
+    yield* waitFor(11);    
+    yield* introVideo().opacity(0, 1);
+
+
     yield* beginSlide("Why make EnVRT?");
     yield* text().code('Why make EnVRT?', 0.6);
 
@@ -360,7 +373,7 @@ export default makeScene2D(function* (view) {
     yield* beginSlide("exposure ther. results2");
     
     yield* all(
-        note().code("(Mahmud et al., 2022)", .5),
+        note().code("(Assa'edah Mahmud et al., 2022)", .5),
         note().opacity(1, 1),
     );
 

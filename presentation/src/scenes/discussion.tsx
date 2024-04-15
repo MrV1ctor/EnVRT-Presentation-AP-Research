@@ -1,6 +1,10 @@
 import {Knot, Spline, CubicBezier, Code, makeScene2D, Img, QuadBezier} from '@motion-canvas/2d';
 import {PossibleVector2, useLogger, all, createRef, beginSlide, Direction, slideTransition, fadeTransition, easeOutCubic, waitFor, makeRef} from '@motion-canvas/core';
 
+import firstSrc from '../../images/bibliography/first.png';
+import secondSrc from '../../images/bibliography/second.png';
+
+
 
 export default makeScene2D(function* (view) {
     
@@ -180,9 +184,50 @@ export default makeScene2D(function* (view) {
         text().fontSize(75, 1.5),
     );
     
+    const first = createRef<Img>();
+    view.add(
+        <Img
+            ref={first}
+            src={firstSrc}
+            x={-500}
+            y={100}
+            scale={0.5}
+            opacity={0}
+        />
+    );
+
+    const second = createRef<Img>();
+    view.add(
+        <Img
+            ref={second}
+            src={secondSrc}
+            x={450}
+            y={70}
+            scale={0.5}
+            opacity={0}
+        />
+    );
+
+    yield* all(
+        first().opacity(1, 1),
+        first().scale(1.3, 1),
+
+        second().opacity(1, 1),
+        second().scale(1.3, 1),
+    );
+
     
     yield* beginSlide("questions");
     
+    yield* all(
+        
+        text().y(-1080, 1.5),
+        first().x(-1920, 1.5),
+        second().x(1920, 1.5),
+
+
+    );
+
     view.removeChildren();
     
     yield* beginSlide("last slide");

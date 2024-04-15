@@ -1,4 +1,4 @@
-import {Knot, Spline, CubicBezier, Code, makeScene2D, Img, QuadBezier} from '@motion-canvas/2d';
+import {Video, Knot, Spline, CubicBezier, Code, makeScene2D, Img, QuadBezier} from '@motion-canvas/2d';
 import {PossibleVector2, useLogger, all, createRef, beginSlide, Direction, slideTransition, fadeTransition, easeOutCubic, waitFor, makeRef} from '@motion-canvas/core';
 
 
@@ -39,6 +39,7 @@ import fall2Src from '../../images/design/fall2.png';
 import defaultMainMenuSrc from '../../images/design/defaultMainMenu.png';
 import customMainMenuSrc from '../../images/design/customMainMenu.png';
 
+import spawnVideoSrc from '../../images/design/apresearchspawn.mp4';
 
 export default makeScene2D(function* (view) {
     
@@ -1142,9 +1143,20 @@ export default makeScene2D(function* (view) {
         text().opacity(0, 1),    
     );
     
-    yield* beginSlide("Spawning video");
+    // yield* beginSlide("Spawning video");
     
-    yield* waitFor(5);
+	//video
+    const spawnVideo = createRef<Video>();
+    view.add(
+        <Video
+            ref={spawnVideo}
+            src={spawnVideoSrc}
+        />
+    );
+
+    spawnVideo().play();
+    yield* waitFor(8);    
+    yield* spawnVideo().opacity(0, 1);
     
     yield* beginSlide("Bug show");
     
