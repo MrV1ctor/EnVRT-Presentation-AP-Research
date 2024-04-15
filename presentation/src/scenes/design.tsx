@@ -29,6 +29,16 @@ import oneHundredPXSmoothingSrc from '../../images/design/oneHundredPXSmoothing.
 import smoothingDepthMapSrc from '../../images/design/smoothingDepthMap.png';
 import highlightedSmoothingDepthMapSrc from '../../images/design/highlightedSmoothingDepthMap.png';
 
+import spawnerSrc from '../../images/design/spawner.png';
+import wristmenuSrc from '../../images/design/wristmenu.png';
+
+import playerSrc from '../../images/design/player.png';
+import fall1Src from '../../images/design/fall1.png';
+import fall2Src from '../../images/design/fall2.png';
+
+import defaultMainMenuSrc from '../../images/design/defaultMainMenu.png';
+import customMainMenuSrc from '../../images/design/customMainMenu.png';
+
 
 export default makeScene2D(function* (view) {
     
@@ -1076,41 +1086,295 @@ export default makeScene2D(function* (view) {
     
     yield* note().code("50px                                                   50px\n\n                   (for 100px smoothing)", 1);
     
-    yield* beginSlide("");
+    yield* beginSlide("Spawning a random landscape");
+    
+    const spawner = createRef<Img>();
+    view.add(
+        <Img
+        ref={spawner}
+        src={spawnerSrc}
+        x={0}
+        y={0}
+        scale={1}
+        opacity={0}
+        />
+    );
+
+    yield* all(
+        note().code("Script", 1),
+        
+        highlightedSmoothingDepthMap().opacity(0, 1),
+
+        text().code("Spawning a random landscape", 1),
+
+        spawner().opacity(1, 1),
+        spawner().scale(1.5, 1),
+    );
+    
+    yield* beginSlide("Wrist menu");
+    
+    const wristmenu = createRef<Img>();
+    view.add(
+        <Img
+        ref={wristmenu}
+        src={wristmenuSrc}
+        x={0}
+        y={0}
+        scale={1.5}
+        opacity={0}
+        />
+    );
+    
+    yield* all(
+        spawner().opacity(0, 1),
+        
+        wristmenu().opacity(1, 1),
+        
+        note().code("Wrist menu", 1),
+        note().opacity(1, 1),
+    );
+
+    yield* beginSlide("Spawning video");
+    
+    yield* all(
+        wristmenu().opacity(0, 1),
+        note().opacity(0, 1),    
+        text().opacity(0, 1),    
+    );
+    
+    yield* beginSlide("Spawning video");
+    
+    yield* waitFor(5);
+    
+    yield* beginSlide("Bug show");
+    
+    const fall1 = createRef<Img>();
+    view.add(
+        <Img
+        ref={fall1}
+        src={fall1Src}
+        x={0}
+        y={0}
+        scale={1.5}
+        opacity={0}
+        />
+    );
+
+    const fall2 = createRef<Img>();
+    view.add(
+        <Img
+        ref={fall2}
+        src={fall2Src}
+        x={0}
+        y={0}
+        scale={1.5}
+        opacity={0}
+        />
+    );
+
+    const player = createRef<Img>();
+    view.add(
+        <Img
+        ref={player}
+        src={playerSrc}
+        x={0}
+        y={0}
+        scale={.5}
+        opacity={0}
+        />
+    );
+
+
+    yield* note().code("", 0);
+    yield* all(
+        player().opacity(1, 1),
+        fall1().opacity(1, 1),
+        
+        note().code("Below", 1),
+        note().fontSize(50, 1),
+        note().opacity(1, 1),
+    );
+
+
+    yield* beginSlide("incorrect fall");
+
+    //move player down
+    yield* all(
+        player().y(125, 1),
+    );
+
+    yield* beginSlide("wrong fall start");
+
+    
+
+    yield* all(
+        player().y(0, 0.5),
+        
+        fall1().opacity(0, 0.5),
+        
+        fall2().opacity(1, 0.5),
+        
+        note().code("Above", 1),
+    );
+
+    yield* beginSlide("wrong fall");
+    
+    //move player down
+    yield* all(
+        player().y(250, 1),
+    );
+    
+    yield* beginSlide("right fall reset");
+    
+    yield* all(
+        player().y(0, 1),
+        fall1().opacity(1, 1),
+        fall2().opacity(0, 1),
+
+        note().code("Below", 1),
+    );
+    
+    yield* beginSlide("below cast");
+    
+    const arrowDown = createRef<CubicBezier>();
+    view.add(
+        <CubicBezier
+        ref={arrowDown}
+        lineWidth={6}
+        stroke={'#000'}
+        p0={[0, 60]}
+        p1={[0, 60]}
+        p2={[0, 175]}
+        p3={[0, 175]}
+        end={0}
+        endArrow
+        arrowSize={15}
+        />,
+    );
+
+    yield* all(
+        arrowDown().end(1, 1),
+    );
+    
+    yield* beginSlide("teleport down player");
+    
+    yield* all(
+        arrowDown().end(0, 0),
+        player().y(125, 0),
+    );
+    
+    yield* beginSlide("above cast");
     
     
+    yield* all(
+        fall1().opacity(0, 1),
+        fall2().opacity(2, 1),
+        player().y(0, 1),
+        note().code("Above", 1),
+    );
+    
+    yield* beginSlide("arrow up");
+
+    const arrowUp = createRef<CubicBezier>();
+    view.add(
+        <CubicBezier
+        ref={arrowUp}
+        lineWidth={6}
+        stroke={'#000'}
+        p0={[0, -65]}
+        p1={[0, -65]}
+        p2={[0, -260]}
+        p3={[0, -260]}
+        end={0}
+        endArrow
+        arrowSize={15}
+        />,
+    );
+    
+    yield* all(
+        arrowUp().end(1, 1),
+        
+    );
     
     
+    yield* beginSlide("arrow down");
+    
+    yield* arrowUp().start(1, 1);
+    yield* all(
+        arrowDown().p0.y(-260, 0),
+        arrowDown().p1.y(-260, 0),
+        arrowDown().p2.y(-150, 0),
+        arrowDown().p3.y(-150, 0),
+
+        arrowDown().end(1, 1),
+
+
+    );
+    
+    yield* beginSlide("teleport up");
+    
+    yield* all(
+        arrowDown().start(1, 0),
+        player().y(-210, 0),
+        
+    );
+    
+    yield* beginSlide("main menu");
+    
+    const defaultMainMenu = createRef<Img>();
+    view.add(
+        <Img
+        ref={defaultMainMenu}
+        src={defaultMainMenuSrc}
+        x={0}
+        y={0}
+        scale={1.75}
+        opacity={0}
+        />
+    );
+    
+    yield* all(
+        arrowDown().start(1, 1),
+        
+        player().opacity(0, 1),
+        fall2().opacity(0, 1),
+        
+        
+        defaultMainMenu().opacity(1, 1),
+        
+        
+        text().code("Main Menu", 1),
+        text().opacity(1, 1),
+        
+        note().code("Default", 1),
+        note().y(400, 1),
+    );
     
     
+    yield* beginSlide("customized main menu");
     
+    const customMainMenu = createRef<Img>();
+    view.add(
+        <Img
+        ref={customMainMenu}
+        src={customMainMenuSrc}
+        x={0}
+        y={0}
+        scale={1.75}
+        opacity={0}
+        />
+    );
     
+    yield* all(
+        defaultMainMenu().opacity(0, 1),
+        
+        customMainMenu().opacity(1, 1),
+        
+        note().code("Customized", 1),
+        note().y(400, 1),
+
+    );
     
-    
-    
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    yield* beginSlide("design end");
 
 });
