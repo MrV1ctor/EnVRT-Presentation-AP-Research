@@ -6,7 +6,8 @@ import intro from './scenes/intro?scene';
 import exploration from './scenes/exploration?scene';
 import design from './scenes/design?scene';
 import application from './scenes/application?scene';
+import discussion from './scenes/discussion?scene';
 
 export default makeProject({
-  scenes: [flashback, intro, exploration, design, application],
+  scenes: [flashback, intro, exploration, design, application, discussion],
 });
